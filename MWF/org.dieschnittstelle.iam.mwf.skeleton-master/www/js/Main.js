@@ -18,14 +18,14 @@
  */
 
 // import the framework
-import {mwf} from "../lib/js/framework-modules.js";
-import {mwfUtils} from "../lib/js/framework-modules.js";
-import {EntityManager} from "../lib/js/framework-modules.js";
-import {GenericCRUDImplLocal} from "../lib/js/framework-modules.js";
-import {GenericCRUDImplRemote} from "../lib/js/framework-modules.js";
+import { mwf } from "../lib/js/framework-modules.js";
+import { mwfUtils } from "../lib/js/framework-modules.js";
+import { EntityManager } from "../lib/js/framework-modules.js";
+import { GenericCRUDImplLocal } from "../lib/js/framework-modules.js";
+import { GenericCRUDImplRemote } from "../lib/js/framework-modules.js";
 
 // import generic application components
-import {GenericDialogTemplateViewController} from "../lib/js/framework-modules.js";
+import { GenericDialogTemplateViewController } from "../lib/js/framework-modules.js";
 /* TODO: only include the mapHolder if maps are actually used. Do not forget to export it below */
 // import {mapHolder} from "../lib/js/framework-modules.js";
 
@@ -40,24 +40,24 @@ import ListviewViewController from "./controller/ListviewViewController.js";
 
 // we export the framework modules required by the application and the application modules required by the framework
 export {
-    /* framework modules */
-    mwf,
-    mwfUtils,
-    EntityManager,
-    GenericCRUDImplLocal,
-    GenericCRUDImplRemote,
-    GenericDialogTemplateViewController,
-    /* TODO: export the mapHolder in case it is used by the application */
-    // mapHolder,
-    /* application modules */
-    MyApplication,
-    entities,
-    MyInitialViewController,
-    // TODO-REPEATED: export any further view controllers here
-    ListviewViewController
-}
+  /* framework modules */
+  mwf,
+  mwfUtils,
+  EntityManager,
+  GenericCRUDImplLocal,
+  GenericCRUDImplRemote,
+  GenericDialogTemplateViewController,
+  /* TODO: export the mapHolder in case it is used by the application */
+  // mapHolder,
+  /* application modules */
+  MyApplication,
+  entities,
+  MyInitialViewController,
+  // TODO-REPEATED: export any further view controllers here
+  ListviewViewController,
+};
 
 // then start the application
 window.onload = () => {
-    mwf.onloadApplication();
-}
+  mwf.onloadApplication();
+};
