@@ -1,20 +1,25 @@
+<!-- 
+ * @modifiziert von Alexander Thofern mittels tutorial.pdf
+//-->
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>MY MWF APP</title>
     <!-- this tag avoids scaling the view on display -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=1" />
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <!-- for pwa, we may include the manifest
     <link rel="manifest" href="pwa/webapp-manifest.json"> -->
     <!-- load the styles -->
-    <link rel="stylesheet" href="lib/css/normalize.css"/>
-    <link rel="stylesheet" href="lib/css/mwf.css"/>
-    <link rel="stylesheet" href="lib/css/mwfIcons.css"/>
+    <link rel="stylesheet" href="lib/css/normalize.css" />
+    <link rel="stylesheet" href="lib/css/mwf.css" />
+    <link rel="stylesheet" href="lib/css/mwfIcons.css" />
     <!-- the application specific style -->
-    <link rel="stylesheet" href="css/myapp-style.css"/>
+    <link rel="stylesheet" href="css/myapp-style.css" />
     <!-- TODO: comment-in if mapviews shall be used. It seems that libs and css need to be accessed online rather than be provided locally, there is also some issue when using leaflet+offline manifest... -->
     <!--
         <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css"/>
@@ -26,30 +31,42 @@
     <script type="module" src="js/Main.js"></script>
 </head>
 <!-- TODO: change the application name if it is adapted -->
+
 <body data-mwf-application="MyApplication" class="mwf-loading-app">
 
-<!-- TODO-REPEATED: add new views here -->
-<div class="mwf-view mwf-view-initial" id="mediaOverview" data-mwf-viewcontroller="ListviewViewController">
-    <header>
-        <button class="mwf-imgbutton mwf-img-sandwich
-        mwf-left-align"></button>
-        <h1 class="mwf-left-align">Medien</h1>
-        <button class="mwf-imgbutton mwf-img-plus mwf-right-align" id="addNewMediaItem"></button>
-    </header>
+    <!-- TODO-REPEATED: add new views here -->
+    <div class="mwf-view mwf-view-initial" data-mwf-viewcontroller="ListviewViewController" id="mediaOverview">
+        <header>
+            <button class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></button>
+            <h1 class="mwf-left-align">Medien</h1>
+            <button class="mwf-imgbutton mwf-img-plus mwf-right-align" id="addNewMediaItem"></button>
+        </header>
         <main class="mwf-scrollview">
-            <ul class="mwf-listview" data-mwf-listitem-view="myapp-listitem">
-                <li class="mwf-listitem mwf-li-title-subtitle mwf-template" data-mwf-templatename="myapp-listitem">
-                    <img class="mwf-left-align" src="https://placekitten.com/100/100"/>
+            <ul class="mwf-listview" data-mwf-listitem-view="myapp-listitem" data-mwf-listitem-menu="mediaItemMenu">
+                <li class="mwf-listitem mwf-li-title-subtitle mwf-template mwf-databind"
+                    data-mwf-templatename="myapp-listitem">
+                    <img class="mwf-left-align" src="{{src}}" />
                     <div class="mwf-li-titleblock">
-                    <h2>lorem ipsum</h2>
-                    <h3>dolor sit amet</h3>
+                        <h2>{{title}}{{_id}}</h2>
+                        <h3>{{added}}</h3>
                     </div>
-                    <button class="mwf-imgbutton mwf-img-options-vertical mwf-right-align">
-                    </li>
+                    <button class="mwf-imgbutton mwf-img-options-vertical mwf-right-align mwf-listitem-menu-control">
+                </li>
             </ul>
         </main>
         <footer></footer>
-</div>
-
+    </div>
+    <div data-mwf-templatename="mediaItemMenu" class="mwf-listitem-menu mwf-template mwf-databind mwf-dialog mwf-popup">
+        <header>
+            <h2 class="mwf-dyncontent">{{title}}{{_id}}</h2>
+        </header>
+        <main>
+            <ul>
+                <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="deleteItem">Löschen</li>
+                <li class="mwf-li-singletitle mwf-menu-item" data-mwf-targetaction="editItem">Editieren</li>
+            </ul>
+        </main>
+    </div>
 </body>
+
 </html>

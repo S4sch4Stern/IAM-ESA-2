@@ -1,7 +1,7 @@
 /**
  * @author Jörn Kreutel
  * @modifiziert von Alexander Thofern mittels tutorial.pdf
- * 
+ *
  */
 import { mwf } from "../Main.js";
 import { entities } from "../Main.js";
@@ -24,7 +24,7 @@ export default class ListviewViewController extends mwf.ViewController {
     this.crudops = GenericCRUDImplLocal.newInstance("MediaItem");
   }
 
-  /*
+    /*
    * for any view: initialise the view
    */
   async oncreate() {
@@ -45,6 +45,27 @@ export default class ListviewViewController extends mwf.ViewController {
     super.oncreate();
   }
 
+  /**
+   * delete the media item
+   * @param {object} item 
+   */
+  deleteItem(item) {
+    this.crudops.delete(item._id).then(() => {
+      this.removeFromListview(item._id);
+    });
+  }
+
+  /**
+   * edit the media item
+   * @param {object} item 
+   */
+  editItem(item) {
+    item.title = item.title + item.title;
+    this.crudops.update(item._id, item).then(() => {
+      this.updateInListview(item._id, item);
+    });
+  }
+
   /*
    * for views that initiate transitions to other views
    * NOTE: return false if the view shall not be returned to, e.g. because we immediately want to display its previous view. Otherwise, do not return anything.
@@ -56,14 +77,8 @@ export default class ListviewViewController extends mwf.ViewController {
   /*
    * for views with listviews: bind a list item to an item view
    * TODO: delete if no listview is used or if databinding uses ractive templates
+   * deleted 4.4.1
    */
-  bindListItemView(listviewid, itemview, itemobj) {
-    // TODO: implement how attributes of itemobj shall be displayed in itemview
-    itemview.root.getElementsByTagName("img")[0].src = itemobj.src;
-    itemview.root.getElementsByTagName("h2")[0].textContent =
-      itemobj.title + itemobj._id;
-    itemview.root.getElementsByTagName("h3")[0].textContent = itemobj.added;
-  }
 
   /*
    * for views with listviews: react to the selection of a listitem
@@ -80,6 +95,7 @@ export default class ListviewViewController extends mwf.ViewController {
    */
   onListItemMenuItemSelected(menuitemview, itemobj, listview) {
     // TODO: implement how selection of the option menuitemview for itemobj shall be handled
+    super.onListItemMenuItemSelected(menuitemview, itemobj, listview);
   }
 
   /*
