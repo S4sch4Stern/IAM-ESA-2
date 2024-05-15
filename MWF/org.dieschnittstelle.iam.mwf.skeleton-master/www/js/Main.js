@@ -23,6 +23,7 @@ import { mwfUtils } from "../lib/js/framework-modules.js";
 import { EntityManager } from "../lib/js/framework-modules.js";
 import { GenericCRUDImplLocal } from "../lib/js/framework-modules.js";
 import { GenericCRUDImplRemote } from "../lib/js/framework-modules.js";
+import ReadviewViewController from "./controller/ReadviewViewController.js"
 
 // import generic application components
 import { GenericDialogTemplateViewController } from "../lib/js/framework-modules.js";
@@ -55,6 +56,7 @@ export {
   MyInitialViewController,
   // TODO-REPEATED: export any further view controllers here
   ListviewViewController,
+  ReadviewViewController,
 };
 
 // then start the application

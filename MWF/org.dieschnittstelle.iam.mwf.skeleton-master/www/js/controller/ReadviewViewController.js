@@ -1,24 +1,20 @@
 /**
  * @author Jörn Kreutel
- * @modifiziert von Alexander Thofern mittels tutorial.pdf
- *
  */
 import { mwf } from "../Main.js";
 import { entities } from "../Main.js";
 
-export default class ListviewViewController extends mwf.ViewController {
+export default class ReadviewViewController extends mwf.ViewController {
   // instance attributes set by mwf after instantiation
   args;
   root;
-
   // TODO-REPEATED: declare custom instance attributes for this controller
-  items;
-  addNewMediaItemElement;
+  viewProxy;
 
   constructor() {
     super();
 
-    console.log("ListviewViewController()");
+    console.log("ViewControllerTemplate()");
   }
 
   /*
@@ -26,86 +22,36 @@ export default class ListviewViewController extends mwf.ViewController {
    */
   async oncreate() {
     // TODO: do databinding, set listeners, initialise the view
-    this.addNewMediaItemElement = this.root.querySelector("#addNewMediaItem");
+    var mediaItem = this.args.item;
+    // new entities.MediaItem("m","https://placekitten.com/300/400");
+    this.viewProxy = this.bindElement("mediaReadviewTemplate",{
+        item: mediaItem},this.root).viewProxy;
+        this.viewProxy.bindAction("deleteItem",(() => {
+        mediaItem.delete().then(() => {
+        this.previousView();
+        })
+    }));
 
-    this.addNewMediaItemElement.onclick = () => {
-      this.createNewItem();
-    };
-
-    entities.MediaItem.readAll().then((items) => {
-      this.initialiseListview(items);
-    });
     // call the superclass once creation is done
     super.oncreate();
   }
 
-  createNewItem() {
-    var newItem = new entities.MediaItem("","https://placekitten.com/100/100");
-    this.showDialog("mediaItemDialog",{
-        item: newItem,
-        actionBindings: {
-            submitForm: ((event) => {
-                event.original.preventDefault();
-                newItem.create().then(() => {
-                    this.addToListview(newItem);
-                });
-                this.hideDialog();
-            })
-        }
-    });
-}
-
-  /**
-   * delete the media item
-   * @param {object} item
-   */
-  deleteItem(item) {
-    item.delete(() => {
-        this.removeFromListview(item._id);
-    });
-}
-
-  /**
-   * edit the media item
-   * @param {object} item
-   */
-  editItem(item) {
-    this.showDialog("mediaItemDialog", {
-        item: item,
-        actionBindings: {
-            submitForm: ((event) => {
-                event.original.preventDefault();
-                item.update().then(() => {
-                    this.updateInListview(item._id,item);
-                });
-                this.hideDialog();
-            }),
-            deleteItem: ((event) => {
-                this.deleteItem(item);
-                this.hideDialog();
-            })
-
-        }
-    });
-}
-
+  
   /*
    * for views that initiate transitions to other views
    * NOTE: return false if the view shall not be returned to, e.g. because we immediately want to display its previous view. Otherwise, do not return anything.
    */
   async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
     // TODO: check from which view, and possibly with which status, we are returning, and handle returnValue accordingly
-    if (nextviewid == "mediaReadview" && returnValue &&
-        returnValue.deletedItem) {
-        this.removeFromListview(returnValue.deletedItem._id);
-    }
-}
+  }
 
   /*
    * for views with listviews: bind a list item to an item view
    * TODO: delete if no listview is used or if databinding uses ractive templates
-   * deleted 4.4.1
    */
+  bindListItemView(listviewid, itemview, itemobj) {
+    // TODO: implement how attributes of itemobj shall be displayed in itemview
+  }
 
   /*
    * for views with listviews: react to the selection of a listitem
@@ -113,7 +59,6 @@ export default class ListviewViewController extends mwf.ViewController {
    */
   onListItemSelected(itemobj, listviewid) {
     // TODO: implement how selection of itemobj shall be handled
-    this.nextView("mediaReadview",{item: itemobj});
   }
 
   /*
@@ -122,7 +67,6 @@ export default class ListviewViewController extends mwf.ViewController {
    */
   onListItemMenuItemSelected(menuitemview, itemobj, listview) {
     // TODO: implement how selection of the option menuitemview for itemobj shall be handled
-    super.onListItemMenuItemSelected(menuitemview, itemobj, listview);
   }
 
   /*
