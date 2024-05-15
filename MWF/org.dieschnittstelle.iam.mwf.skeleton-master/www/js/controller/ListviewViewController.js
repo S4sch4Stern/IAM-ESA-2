@@ -40,14 +40,20 @@ export default class ListviewViewController extends mwf.ViewController {
   }
 
   createNewItem() {
-    var newItem = new entities.MediaItem(
-      "m",
-      "https://placekitten.com/100/100"
-    );
-    newItem.create().then(() => {
-      this.addToListview(newItem);
+    var newItem = new entities.MediaItem("","https://placekitten.com/100/100");
+    this.showDialog("mediaItemDialog",{
+        item: newItem,
+        actionBindings: {
+            submitForm: ((event) => {
+                event.original.preventDefault();
+                newItem.create().then(() => {
+                    this.addToListview(newItem);
+                });
+                this.hideDialog();
+            })
+        }
     });
-  }
+}
 
   /**
    * delete the media item
@@ -64,10 +70,24 @@ export default class ListviewViewController extends mwf.ViewController {
    * @param {object} item
    */
   editItem(item) {
-    item.update().then(() => {
-      this.updateInListview(item._id, item);
+    this.showDialog("mediaItemDialog", {
+        item: item,
+        actionBindings: {
+            submitForm: ((event) => {
+                event.original.preventDefault();
+                item.update().then(() => {
+                    this.updateInListview(item._id,item);
+                });
+                this.hideDialog();
+            }),
+            deleteItem: ((event) => {
+                this.deleteItem(item);
+                this.hideDialog();
+            })
+
+        }
     });
-  }
+}
 
   /*
    * for views that initiate transitions to other views
