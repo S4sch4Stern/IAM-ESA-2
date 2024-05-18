@@ -1,0 +1,29 @@
+/**
+ * @author Jörn Kreutel
+ * @modifiziert von Alexander Thofern mittels tutorial.pdf
+ *
+ */
+ 
+/* TODO: add any application specific styling here */
+#mediaReadview img {
+    width: 100%;
+    max-width: 100%;
+    }
+
+    #mediaReadview img {
+        width: 100%;
+    
+    }
+    #CRUDScopeStatus{
+        display: inline-block;
+        margin: 0px;
+        font-size: 12pt;
+        font-weight: normal;
+        padding-left: 10px;
+        height: 40px;
+        line-height: 40px;
+    }
+    div h4 {
+        color: black;
+        padding-left: 10px;
+    }
