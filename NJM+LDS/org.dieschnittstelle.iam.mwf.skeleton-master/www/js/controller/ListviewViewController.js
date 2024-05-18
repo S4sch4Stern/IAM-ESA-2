@@ -14,11 +14,12 @@ export default class ListviewViewController extends mwf.ViewController {
   // TODO-REPEATED: declare custom instance attributes for this controller
   items;
   addNewMediaItemElement;
+  switchCRUDOperation;
 
   constructor() {
     super();
 
-    console.log("ListviewViewController()");  
+    console.log("ListviewViewController()");
   }
 
   /*
@@ -32,17 +33,22 @@ export default class ListviewViewController extends mwf.ViewController {
       this.createNewItem();
     };
 
+    this.switchCRUDOperation = this.root.querySelector("#switchCRUDOperation");
+
+    this.switchCRUDOperation.onclick = () => {
+      this.switchCRUDOps();
+    };
+
     entities.MediaItem.readAll().then((items) => {
       this.initialiseListview(items);
     });
+
     // call the superclass once creation is done
     super.oncreate();
   }
 
-
   createNewItem() {
     // var newItem = new entities.MediaItem("", "https://placekitten.com/100/100");
-
     // placehold Bild ausgewählt, um die Anforderungen aus MF4 zu prüfen. Das placekitten Bild ist nicht verfügbar
     var newItem = new entities.MediaItem("", "https://placehold.co/100x100");
     this.showDialog("mediaItemDialog", {
@@ -59,13 +65,11 @@ export default class ListviewViewController extends mwf.ViewController {
     });
   }
 
-
   deleteItem(item) {
     item.delete(() => {
       this.removeFromListview(item._id);
     });
   }
-
 
   editItem(item) {
     this.showDialog("mediaItemDialog", {
@@ -83,6 +87,23 @@ export default class ListviewViewController extends mwf.ViewController {
           this.hideDialog();
         },
       },
+    });
+  }
+
+  /**
+   * method to switch CRUD Operation from localDB to remoteDB
+   */
+  switchCRUDOps() {
+    if (this.application.currentCRUDScope == "local") {
+      this.application.switchCRUD("remote");
+    } else {
+      this.application.switchCRUD("local");
+    }
+
+    this.root.querySelector("#crudOperationStatus").innerHTML =
+      this.application.currentCRUDScope;
+    entities.MediaItem.readAll().then((items) => {
+      this.initialiseListview(items);
     });
   }
 

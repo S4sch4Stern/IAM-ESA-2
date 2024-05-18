@@ -52,11 +52,14 @@
                         <h2>{{title}}{{_id}}</h2>
                         <h3>{{addedDateString}}</h3>
                     </div>
-                    <button class="mwf-imgbutton mwf-img-options-vertical mwf-right-align mwf-listitem-menu-control">
+                    <button id="switchCRUDOperation" class="mwf-imgbutton mwf-img-options-vertical mwf-right-align mwf-listitem-menu-control">
                 </li>
             </ul>
         </main>
-        <footer></footer>
+        <footer class="footerStyle">
+            <p class="mwf-left-align" id="crudOperationStatus">local</p>
+            <button id="switchCRUDOperation" class =" mwf-imgbutton mwf-img-refresh mwf-right-align"></button>
+        </footer>
     </div>
 
     <!--readview of one listItem name, deleteButton & goBackButton-->
@@ -67,7 +70,7 @@
             <header>
                 <button class="mwf-imgbutton mwf-img-sandwich mwf-left-align"></button>
                 <h1 class="mwf-left-align">{{item.title}}</h1>
-                <button class="mwf-imgbutton mwf-img-delete mwf-right-align" on-click="deleteItem"></button>
+                <button class="mwf-right-align mwf-imgbutton mwf-img-delete " on-click="deleteItem"></button>
             </header>
 
             <main class="mwf-scrollview">
