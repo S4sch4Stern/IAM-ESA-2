@@ -1,6 +1,13 @@
 /**
  * Created by master on 17.02.16.
  */
+
+/**
+ * @author Jörn Kreutel
+ * @modifiziert von Alexander Thofern mittels tutorial.pdf
+ *
+ */
+
 import { mwf } from "./Main.js";
 import { mwfUtils } from "./Main.js";
 import { EntityManager } from "./Main.js";

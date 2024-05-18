@@ -18,7 +18,7 @@ export default class ListviewViewController extends mwf.ViewController {
   constructor() {
     super();
 
-    console.log("ListviewViewController()");
+    console.log("ListviewViewController()");  
   }
 
   /*
@@ -39,55 +39,52 @@ export default class ListviewViewController extends mwf.ViewController {
     super.oncreate();
   }
 
-  createNewItem() {
-    var newItem = new entities.MediaItem("","https://placekitten.com/100/100");
-    this.showDialog("mediaItemDialog",{
-        item: newItem,
-        actionBindings: {
-            submitForm: ((event) => {
-                event.original.preventDefault();
-                newItem.create().then(() => {
-                    this.addToListview(newItem);
-                });
-                this.hideDialog();
-            })
-        }
-    });
-}
 
-  /**
-   * delete the media item
-   * @param {object} item
-   */
+  createNewItem() {
+    // var newItem = new entities.MediaItem("", "https://placekitten.com/100/100");
+
+    // placehold Bild ausgewählt, um die Anforderungen aus MF4 zu prüfen. Das placekitten Bild ist nicht verfügbar
+    var newItem = new entities.MediaItem("", "https://placehold.co/100x100");
+    this.showDialog("mediaItemDialog", {
+      item: newItem,
+      actionBindings: {
+        submitForm: (event) => {
+          event.original.preventDefault();
+          newItem.create().then(() => {
+            this.addToListview(newItem);
+          });
+          this.hideDialog();
+        },
+      },
+    });
+  }
+
+
   deleteItem(item) {
     item.delete(() => {
-        this.removeFromListview(item._id);
+      this.removeFromListview(item._id);
     });
-}
+  }
 
-  /**
-   * edit the media item
-   * @param {object} item
-   */
+
   editItem(item) {
     this.showDialog("mediaItemDialog", {
-        item: item,
-        actionBindings: {
-            submitForm: ((event) => {
-                event.original.preventDefault();
-                item.update().then(() => {
-                    this.updateInListview(item._id,item);
-                });
-                this.hideDialog();
-            }),
-            deleteItem: ((event) => {
-                this.deleteItem(item);
-                this.hideDialog();
-            })
-
-        }
+      item: item,
+      actionBindings: {
+        submitForm: (event) => {
+          event.original.preventDefault();
+          item.update().then(() => {
+            this.updateInListview(item._id, item);
+          });
+          this.hideDialog();
+        },
+        deleteItem: (event) => {
+          this.deleteItem(item);
+          this.hideDialog();
+        },
+      },
     });
-}
+  }
 
   /*
    * for views that initiate transitions to other views
@@ -95,11 +92,14 @@ export default class ListviewViewController extends mwf.ViewController {
    */
   async onReturnFromNextView(nextviewid, returnValue, returnStatus) {
     // TODO: check from which view, and possibly with which status, we are returning, and handle returnValue accordingly
-    if (nextviewid == "mediaReadview" && returnValue &&
-        returnValue.deletedItem) {
-        this.removeFromListview(returnValue.deletedItem._id);
+    if (
+      nextviewid == "mediaReadview" &&
+      returnValue &&
+      returnValue.deletedItem
+    ) {
+      this.removeFromListview(returnValue.deletedItem._id);
     }
-}
+  }
 
   /*
    * for views with listviews: bind a list item to an item view
@@ -113,7 +113,7 @@ export default class ListviewViewController extends mwf.ViewController {
    */
   onListItemSelected(itemobj, listviewid) {
     // TODO: implement how selection of itemobj shall be handled
-    this.nextView("mediaReadview",{item: itemobj});
+    this.nextView("mediaReadview", { item: itemobj });
   }
 
   /*
